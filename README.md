@@ -1,3 +1,5 @@
+[![Waffle.io - Issues in progress](https://badge.waffle.io/ZespolNumerJeden/zn1.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/ZespolNumerJeden/zn1)
+
 ## Strona www:
 http://ogarnij-agile.azurewebsites.net/
 
