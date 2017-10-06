@@ -9,7 +9,7 @@ namespace zn1Web.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(zn1Web.Models.ApplicationDbContext context)
