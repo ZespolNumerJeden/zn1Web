@@ -1,5 +1,8 @@
-# Build Status
+# Production Build Status
 [![VSTS Build Status](https://zn1web.visualstudio.com/_apis/public/build/definitions/79e054d5-f75b-4213-afad-e16c92339659/1/badge)](#)
+
+## Development Build Status
+[![VSTS Build Status](https://zn1web.visualstudio.com/_apis/public/build/definitions/79e054d5-f75b-4213-afad-e16c92339659/2/badge)](#)
 
 # Waffle.io work progress
 [![Waffle.io - Issues in progress](https://badge.waffle.io/ZespolNumerJeden/zn1.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/ZespolNumerJeden/zn1)
