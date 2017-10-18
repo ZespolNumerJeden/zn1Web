@@ -1,5 +1,5 @@
 # Production Build Status
-[![VSTS Build Status](https://zn1web.visualstudio.com/_apis/public/build/definitions/79e054d5-f75b-4213-afad-e16c92339659/1/badge)](https://zn1web.visualstudio.com/_apis/public/build/definitions/79e054d5-f75b-4213-afad-e16c92339659/1/badge)
+[![VSTS Build Status](https://zn1web.visualstudio.com/_apis/public/build/definitions/79e054d5-f75b-4213-afad-e16c92339659/1/badge)](https://zn1web.visualstudio.com/MyFirstProject/_dashboards?activeDashboardId=a6ca41b6-9337-4f81-9f09-4f047d05788b)
 
 ## Development Build Status
 [![VSTS Build Status](https://zn1web.visualstudio.com/_apis/public/build/definitions/79e054d5-f75b-4213-afad-e16c92339659/2/badge)](#)
