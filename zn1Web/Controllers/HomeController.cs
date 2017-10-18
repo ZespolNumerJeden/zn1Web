@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using zn1Web.Models;
+using zn1Web.Utils;
 
 namespace zn1Web.Controllers
 {
@@ -26,5 +28,13 @@ namespace zn1Web.Controllers
 
             return View();
         }
+
+	    public ActionResult Agenda()
+	    {
+		    var ag = new AgendaGenerator();
+		    var agenda = ag.GetAgenda();
+			ag.Close();
+		    return View(new AgendaViewModel() {Agenda = agenda});
+	    }
     }
 }
