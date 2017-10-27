@@ -3,7 +3,15 @@
 @{
     ViewBag.Title = "Agenda";
 }
-
+@if (Model.IsMobile)
+{
+	<head>
+		@Styles.Render("~/Content/css")
+		@Scripts.Render("~/bundles/modernizr")
+		@Scripts.Render("~/bundles/jquery")
+		@Scripts.Render("~/bundles/bootstrap")
+	</head>
+}
 <h2>Agenda</h2>
 
 <div class="container">
