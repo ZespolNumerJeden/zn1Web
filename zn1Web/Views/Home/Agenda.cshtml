@@ -11,9 +11,12 @@
 		@Scripts.Render("~/bundles/jquery")
 		@Scripts.Render("~/bundles/bootstrap")
 	</head>
+	<style>body{ padding-top: 5px;}</style>
 }
-<h2>Agenda</h2>
-
+@if (!Model.IsMobile)
+{
+	<h2>Agenda</h2>
+}
 <div class="container">
 
 	@foreach (var agenda in Model.Grouped)
