@@ -29,12 +29,18 @@ namespace zn1Web.Controllers
             return View();
         }
 
-	    public ActionResult Agenda()
+	    public ActionResult Agenda(bool mobile = false)
 	    {
 		    var ag = new AgendaGenerator();
 		    var agenda = ag.GetAgenda();
 			ag.Close();
-		    return View(new AgendaViewModel() {Agenda = agenda});
+		    var model = new AgendaViewModel() {Agenda = agenda, IsMobile = mobile};
+
+			if (mobile)
+			{
+				return PartialView("Agenda", model);
+			}
+		    return View(model);
 	    }
     }
 }

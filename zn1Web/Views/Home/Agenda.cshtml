@@ -3,24 +3,32 @@
 @{
     ViewBag.Title = "Agenda";
 }
-
+@if (Model.IsMobile)
+{
+	<head>
+		@Styles.Render("~/Content/css")
+		@Scripts.Render("~/bundles/modernizr")
+		@Scripts.Render("~/bundles/jquery")
+		@Scripts.Render("~/bundles/bootstrap")
+	</head>
+}
 <h2>Agenda</h2>
 
 <div class="container">
 
 	@foreach (var agenda in Model.Grouped)
 	{
-		<p>Dzień: @agenda.FirstOrDefault().DateTime.ToString("dd MMMM yyyy")</p>
-		string accordionId = string.Format("accordion{0}", agenda.FirstOrDefault().DateTime.ToString("ddMMyy"));
+		<p>Dzień: @agenda.FirstOrDefault().DayTime.ToString("dd MMMM yyyy")</p>
+		string accordionId = string.Format("accordion{0}", agenda.FirstOrDefault().DayTime.ToString("ddMMyy"));
 		<div class="panel-group" id="@accordionId">
-			@foreach (var agendaClass in agenda)
+			@foreach (var agendaClass in agenda.OrderBy(x=>x.DayTime))
 			{
-				string col = string.Format("collapse{0}", agendaClass.DateTime.ToString("ddMMyyHHmm"));
+				string col = string.Format("collapse{0:ddMMyyHHmm}", agendaClass.DayTime);
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							<a data-toggle="collapse" data-parent="#@accordionId" href="#@col">
-								Godzina: @agendaClass.Time Tytuł: @agendaClass.Title
+								Godzina: @agendaClass.DayTime.ToString("HH:mm") Tytuł: @agendaClass.Title
 							</a>
 						</h4>
 					</div>
