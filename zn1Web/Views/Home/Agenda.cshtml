@@ -12,8 +12,10 @@
 		@Scripts.Render("~/bundles/bootstrap")
 	</head>
 }
-<h2>Agenda</h2>
-
+@if (!Model.IsMobile)
+{
+	<h2>Agenda</h2>
+}
 <div class="container">
 
 	@foreach (var agenda in Model.Grouped)
