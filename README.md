@@ -17,6 +17,7 @@ http://ogarnij-agile-staging.azurewebsites.net
 
 ## Development website
 Zawiera stan z brancha development.
+http://ogarnij-agile-dev.azurewebsites.net/
 
 # Waffle.io work progress
 [![Waffle.io - Issues in progress](https://badge.waffle.io/ZespolNumerJeden/zn1.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/ZespolNumerJeden/zn1)
