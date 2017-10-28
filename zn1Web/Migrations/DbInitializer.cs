@@ -51,5 +51,6 @@ namespace zn1Web.Migrations
             context.SaveChanges();
             
         }
+
     }
 }

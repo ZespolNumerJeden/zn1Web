@@ -20,7 +20,7 @@ Zawiera stan z brancha development.
 http://ogarnij-agile-dev.azurewebsites.net/
 
 # Waffle.io work progress
-[![Waffle.io - Issues in progress](https://badge.waffle.io/ZespolNumerJeden/zn1.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/ZespolNumerJeden/zn1)
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/ZespolNumerJeden/zn1Web.svg?columns=all)](http://waffle.io/ZespolNumerJeden/zn1Web)
 
 # Zasady commitowania - pipeline CI & CD
 1. Każdy dev ma swojego brancha (moze miec kilka do różnych feature'ów)

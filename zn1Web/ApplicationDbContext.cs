@@ -28,8 +28,13 @@ namespace zn1Web
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            // nie dodawac 's' do nazw tabel
+            // do not 's to table name
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+            // define keys for identity models
+            modelBuilder.Entity<IdentityUserLogin>().HasKey(l => l.UserId);
+            modelBuilder.Entity<IdentityRole>().HasKey(r => r.Id);
+            modelBuilder.Entity<IdentityUserRole>().HasKey(r => new {r.RoleId, r.UserId});
         }
     }
 }
