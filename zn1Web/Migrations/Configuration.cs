@@ -62,9 +62,8 @@ namespace zn1Web.Migrations
                 };
                 context.Partnerzy.AddRange(partnerzy);
                 context.SaveChanges();
-
-            }
 #if DEBUG
+            }
             catch (DbEntityValidationException e)
             {
 
