@@ -7,6 +7,9 @@ namespace zn1Web
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+
+        #region Tables
+
         public DbSet<Uczestnik> Uczestnicy { get; set; }
         public DbSet<ListaObecnosci> ListyObecnosci { get; set; }
         public DbSet<Prelegent> Prelegenci { get; set; }
@@ -14,9 +17,10 @@ namespace zn1Web
         public DbSet<Partner> Partnerzy { get; set; }
         public DbSet<Harmonogram> Harmonogramy { get; set; }
 
+        #endregion
+
         public DropCreateDatabaseIfModelChanges<ApplicationDbContext> DbInitializer { get; set; }
-
-
+        
         public ApplicationDbContext() : base("DefaultConnection", false)
         {
         }
@@ -28,7 +32,7 @@ namespace zn1Web
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            // do not 's to table name
+            // do not append 's to table name
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             // define keys for identity models
