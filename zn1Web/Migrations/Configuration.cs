@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
@@ -62,6 +63,16 @@ namespace zn1Web.Migrations
                 };
                 context.Partnerzy.AddRange(partnerzy);
                 context.SaveChanges();
+
+                var obecnosci = new List<ListaObecnosci>
+                {
+                    new ListaObecnosci(){Obecnosc = true, UczestnikId = 2, WarsztatId = 3, Rejestracja = DateTime.Now},
+                    new ListaObecnosci(){Obecnosc = true, UczestnikId = 1, WarsztatId = 1, Rejestracja = new DateTime(2017, 10, 21)},
+                    new ListaObecnosci(){Obecnosc = true, UczestnikId = 4, WarsztatId = 2, Rejestracja = new DateTime(2017, 10, 22)}
+                };
+                context.ListyObecnosci.AddRange(obecnosci);
+                context.SaveChanges();
+
 #if DEBUG
             }
             catch (DbEntityValidationException e)

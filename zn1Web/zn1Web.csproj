@@ -228,6 +228,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AgendaViewModel.cs" />
     <Compile Include="ApplicationDbContext.cs" />
+    <Compile Include="Models\Bilet.cs" />
     <Compile Include="Models\Harmonogram.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ListaObecnosci.cs" />
