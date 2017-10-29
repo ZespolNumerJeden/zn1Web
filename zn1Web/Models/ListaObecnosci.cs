@@ -12,8 +12,7 @@ namespace zn1Web.Models
         public Warsztat Warsztat { get; set; }
         public int WarsztatId { get; set; }
 
-        public DateTime Rejestracja { get; set; }
-        public bool Obecnosc { get; set; }
-
+        public DateTime? Rejestracja { get; set; }
+        public bool Obecnosc { get; set; } = false;
     }
 }

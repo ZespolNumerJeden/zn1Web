@@ -68,7 +68,8 @@ namespace zn1Web.Migrations
                 {
                     new ListaObecnosci(){Obecnosc = true, UczestnikId = 2, WarsztatId = 3, Rejestracja = DateTime.Now},
                     new ListaObecnosci(){Obecnosc = true, UczestnikId = 1, WarsztatId = 1, Rejestracja = new DateTime(2017, 10, 21)},
-                    new ListaObecnosci(){Obecnosc = true, UczestnikId = 4, WarsztatId = 2, Rejestracja = new DateTime(2017, 10, 22)}
+                    new ListaObecnosci(){Obecnosc = true, UczestnikId = 4, WarsztatId = 2, Rejestracja = new DateTime(2017, 10, 22)},
+                    new ListaObecnosci(){UczestnikId = 2, WarsztatId = 2}
                 };
                 context.ListyObecnosci.AddRange(obecnosci);
                 context.SaveChanges();
