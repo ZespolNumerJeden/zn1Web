@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 
 namespace zn1Web.Models
 {
@@ -17,6 +19,10 @@ namespace zn1Web.Models
 
         public int? MaxOsob { get; set; }
 
+        // wydarzenie
+        public Wydarzenie Wydarzenie { get; set; }
+        public int? WydarzenieId { get; set; }
+
         // Prelegent 1
         public Prelegent Prelegent1 { get; set; }
         public int? Prelegent1Id { get; set; }
@@ -28,6 +34,25 @@ namespace zn1Web.Models
         // Prelegent 3
         public Prelegent Prelegent3 { get; set; }
         public int? Prelegent3Id { get; set; }
+
+        #region Seed
+
+        /// <summary>
+        /// Seeds tavle with mock data.
+        /// </summary>
+        /// <param name="table">Table Warsztaty</param>
+        internal static void Seed(DbSet<Warsztat> table)
+        {
+            var warsztaty = new List<Warsztat>
+            {
+                new Warsztat {Nazwa = "Wprowadzanie", Sala = "10", Prelegent1Id = 1, Prelegent2Id = 2, WydarzenieId = 2},
+                new Warsztat {Nazwa = "Dodawanie", Sala = "5", MaxOsob = 10, Prelegent1Id = 3, WydarzenieId = 2},
+                new Warsztat {Nazwa = "Poznawanie", Sala = "3", MaxOsob = 11, Prelegent1Id = 1, WydarzenieId = 2}
+            };
+            table.AddRange(warsztaty);
+        }
+
+        #endregion
 
     }
 }

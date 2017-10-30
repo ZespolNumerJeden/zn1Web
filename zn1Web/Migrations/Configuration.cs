@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
@@ -17,63 +15,22 @@ namespace zn1Web.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
-
 #if DEBUG
             try
             {
 #endif
-                var uczestnicy = new List<Uczestnik>
-                {
-                    new Uczestnik {Imie = "Adam", Nazwisko = "Adam"},
-                    new Uczestnik {Imie = "Andrzej", Nazwisko = "Andrzej"},
-                    new Uczestnik {Imie = "Pawe³", Nazwisko = "Pawe³"},
-                    new Uczestnik {Imie = "Tomek", Nazwisko = "Tomek"},
-                    new Uczestnik {Imie = "Kuba", Nazwisko = "Kuba"},
-                    new Uczestnik {Imie = "Johny", Nazwisko = "Johny"}
-                };
-                context.Uczestnicy.AddRange(uczestnicy);
+                Uczestnik.Seed(context.Uczestnicy);
                 context.SaveChanges();
-
-                var prelegenci = new List<Prelegent>
-                {
-                    new Prelegent {Imie = "P1", Nazwisko = "P1", FotoLink = "http://dup.a/pl"},
-                    new Prelegent {Imie = "P2", Nazwisko = "P2", FotoLink = "http://dup.a/pl"},
-                    new Prelegent {Imie = "P3", Nazwisko = "P3", FotoLink = "http://dup.a/pl"},
-                    new Prelegent {Imie = "P4", Nazwisko = "P4", FotoLink = "http://dup.a/pl"},
-                    new Prelegent {Imie = "P5", Nazwisko = "P5", FotoLink = "http://dup.a/pl"},
-                    new Prelegent {Imie = "P6", Nazwisko = "P6", FotoLink = "http://dup.a/pl"}
-                };
-                context.Prelegenci.AddRange(prelegenci);
+                Prelegent.Seed(context.Prelegenci);
                 context.SaveChanges();
-
-                var warsztaty = new List<Warsztat>
-                {
-                    new Warsztat {Nazwa = "Wprowadzanie", Sala = "10", Prelegent1Id = 1, Prelegent2Id = 2},
-                    new Warsztat {Nazwa = "Dodawanie", Sala = "5", MaxOsob = 10, Prelegent1Id = 3},
-                    new Warsztat {Nazwa = "Poznawanie", Sala = "3", MaxOsob = 11, Prelegent1Id = 1}
-                };
-                context.Warsztaty.AddRange(warsztaty);
+                Wydarzenie.Seed(context.Wydarzenia);
                 context.SaveChanges();
-
-                var partnerzy = new List<Partner>
-                {
-                    new Partner {LogoLink = "http://dup1.a/pl", Status = "sadwqdawdas"},
-                    new Partner {LogoLink = "http://dup2.a/pl", Status = "sadwqdawdzxceas"},
-                    new Partner {LogoLink = "http://dup3.a/pl", Status = "sadwqda12321wdas"}
-                };
-                context.Partnerzy.AddRange(partnerzy);
+                Partner.Seed(context.Partnerzy);
                 context.SaveChanges();
-
-                var obecnosci = new List<ListaObecnosci>
-                {
-                    new ListaObecnosci(){Obecnosc = true, UczestnikId = 2, WarsztatId = 3, Rejestracja = DateTime.Now},
-                    new ListaObecnosci(){Obecnosc = true, UczestnikId = 1, WarsztatId = 1, Rejestracja = new DateTime(2017, 10, 21)},
-                    new ListaObecnosci(){Obecnosc = true, UczestnikId = 4, WarsztatId = 2, Rejestracja = new DateTime(2017, 10, 22)},
-                    new ListaObecnosci(){UczestnikId = 2, WarsztatId = 2}
-                };
-                context.ListyObecnosci.AddRange(obecnosci);
+                Warsztat.Seed(context.Warsztaty);
                 context.SaveChanges();
-
+                ListaObecnosci.Seed(context.ListyObecnosci);
+                context.SaveChanges();
 #if DEBUG
             }
             catch (DbEntityValidationException e)
@@ -90,7 +47,6 @@ namespace zn1Web.Migrations
                     }
 
                 }
-
                 throw;
             }
 #endif

@@ -16,7 +16,8 @@ namespace zn1Web
         public DbSet<Warsztat> Warsztaty { get; set; }
         public DbSet<Partner> Partnerzy { get; set; }
         public DbSet<Harmonogram> Harmonogramy { get; set; }
-
+        public DbSet<Wydarzenie> Wydarzenia { get; set; }
+        
         #endregion
 
         public DropCreateDatabaseIfModelChanges<ApplicationDbContext> DbInitializer { get; set; }

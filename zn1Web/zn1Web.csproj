@@ -221,6 +221,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListaObecnosciController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -229,15 +230,16 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AgendaViewModel.cs" />
     <Compile Include="ApplicationDbContext.cs" />
-    <Compile Include="Models\Bilet.cs" />
     <Compile Include="Models\Harmonogram.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ListaObecnosci.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Partner.cs" />
     <Compile Include="Models\Prelegent.cs" />
+    <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\Uczestnik.cs" />
     <Compile Include="Models\Warsztat.cs" />
+    <Compile Include="Models\Wydarzenie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\AgendaGenerator.cs" />

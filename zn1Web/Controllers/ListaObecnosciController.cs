@@ -9,10 +9,12 @@ using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using zn1Web;
 using zn1Web.Models;
@@ -30,36 +32,25 @@ namespace zn1Web.Controllers
         }
 
         //GET: api/ListaObecnosci/5
-        [ResponseType(typeof(ListaObecnosci))]
+//        [ResponseType(typeof(ListaObecnosci))]
         public async Task<IHttpActionResult> GetListaObecnosci(int id)
         {
-            ListaObecnosci listaObecnosci = await db.ListyObecnosci.FindAsync(id);
+            var listaObecnosci = await db.ListyObecnosci.FindAsync(id);
             if (listaObecnosci == null)
             {
                 return NotFound();
             }
 
+            string firstName = db.Uczestnicy.Where(u => u.Id == listaObecnosci.UczestnikId)
+                .Select(u => u.Imie).First();
+            string lastName = db.Uczestnicy.Where(u => u.Id == listaObecnosci.UczestnikId)
+                .Select(u => u.Nazwisko).First();
+            string companyName = db.Uczestnicy.Where(u => u.Id == listaObecnosci.UczestnikId)
+                .Select(u => u.Firma).First();
+
             return Ok(listaObecnosci);
         }
-
-
-//        [System.Web.Http.HttpGet]
-//        public async Task<JsonResult<ListaObecnosci>> GetListaObecnosci(int id)
-//        {
-//            
-//            ListaObecnosci listaObecnosci = await db.ListyObecnosci.FindAsync(id);
-//            if (listaObecnosci == null)
-//            {
-//                return null;
-//            }
-//
-//            JsonSerializerSettings jsonSettings = new JsonSerializerSettings();
-//
-//            return new JsonResult<ListaObecnosci>(listaObecnosci, jsonSettings, Encoding.UTF8, new HttpRequestMessage());
-//
-//        }
-
-
+        
         // PUT: api/ListaObecnosci/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutListaObecnosci(int id, ListaObecnosci listaObecnosci)

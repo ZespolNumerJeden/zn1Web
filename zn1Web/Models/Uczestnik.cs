@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 
 namespace zn1Web.Models
 {
@@ -27,5 +29,29 @@ namespace zn1Web.Models
 
         [StringLength(20)]
         public string Obiad { get; set; }
+
+        #region Seed
+
+        /// <summary>
+        /// Seeds table Uczestnicy with mock data.
+        /// </summary>
+        /// <param name="table">Uczestnicy table.</param>
+        internal static void Seed(DbSet<Uczestnik> table)
+        {
+            var uczestnicy = new List<Uczestnik>
+            {
+                new Uczestnik {Imie = "Adam", Nazwisko = "Adam"},
+                new Uczestnik {Imie = "Andrzej", Nazwisko = "Andrzej"},
+                new Uczestnik {Imie = "Paweł", Nazwisko = "Paweł"},
+                new Uczestnik {Imie = "Tomek", Nazwisko = "Tomek"},
+                new Uczestnik {Imie = "Kuba", Nazwisko = "Kuba"},
+                new Uczestnik {Imie = "Johny", Nazwisko = "Johny"}
+            };
+            table.AddRange(uczestnicy);
+        }
+
+        #endregion
+
     }
+
 }
