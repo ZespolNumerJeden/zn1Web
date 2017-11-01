@@ -3,6 +3,7 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -19,9 +20,16 @@ namespace zn1Web.Controllers
             return BadRequest("Provide ticketId in GET request.");
         }
 
-        // GET: api/Ticket/{Guid}
+        // GET: api/Ticket/{ticketId}
         public async Task<IHttpActionResult> Get(Guid ticketId)
         {
+
+            if (!AuthenticateRequest())
+            {
+                // yes, bad response code - needs to halt redirect for 401 code - mvc / web api conflict :(
+                var msg = new HttpResponseMessage(HttpStatusCode.NotAcceptable) {ReasonPhrase = "Unauthorized. Bad api key."};
+                throw new HttpResponseException(msg);
+            }
 
             var bilet = await dbContext.Bilety.Where(b => b.Id == ticketId)
                                               .Include(b => b.Uczestnik)
@@ -31,7 +39,7 @@ namespace zn1Web.Controllers
             if (bilet == null)
                 return NotFound();
             if (bilet.Uczestnik == null || bilet.Wydarzenie == null)
-                return StatusCode(HttpStatusCode.Conflict);
+                return ResponseMessage(new HttpResponseMessage(HttpStatusCode.NoContent){ ReasonPhrase = "Brak danych uczestnika lub wydarzenia." });
 
             var td = new TicketData(ticketId)
                      {
@@ -47,6 +55,26 @@ namespace zn1Web.Controllers
 
             var jsonSettings = new JsonSerializerSettings {Formatting = Formatting.Indented};
             return Json(td, jsonSettings);
+
+        }
+
+        #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// Authorizes request.
+        /// </summary>
+        /// <returns>True if authorization OK.</returns>
+        private bool AuthenticateRequest()
+        {
+
+            if (Request.Headers.Contains("apiKey"))
+            {
+                return !string.IsNullOrEmpty(Request.Headers.GetValues("apiKey").First());
+            }
+
+            return false;
 
         }
 
