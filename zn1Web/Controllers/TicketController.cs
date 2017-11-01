@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace zn1Web.Controllers
 {
+
     public class TicketController : ApiController
     {
 
@@ -23,13 +24,7 @@ namespace zn1Web.Controllers
         // GET: api/Ticket/{ticketId}
         public async Task<IHttpActionResult> Get(Guid ticketId)
         {
-
-            if (!AuthenticateRequest())
-            {
-                // yes, bad response code - needs to halt redirect for 401 code - mvc / web api conflict :(
-                var msg = new HttpResponseMessage(HttpStatusCode.NotAcceptable) {ReasonPhrase = "Unauthorized. Bad api key."};
-                throw new HttpResponseException(msg);
-            }
+            AuthenticateRequest();
 
             var bilet = await dbContext.Bilety.Where(b => b.Id == ticketId)
                                               .Include(b => b.Uczestnik)
@@ -39,23 +34,34 @@ namespace zn1Web.Controllers
             if (bilet == null)
                 return NotFound();
             if (bilet.Uczestnik == null || bilet.Wydarzenie == null)
-                return ResponseMessage(new HttpResponseMessage(HttpStatusCode.NoContent){ ReasonPhrase = "Brak danych uczestnika lub wydarzenia." });
+                return ResponseMessage(new HttpResponseMessage(HttpStatusCode.NoContent)
+                                       {
+                                           ReasonPhrase = "Brak danych uczestnika lub wydarzenia."
+                                       });
 
-            var td = new TicketData(ticketId)
-                     {
-                         FirstName = bilet.Uczestnik.Imie,
-                         LastName = bilet.Uczestnik.Nazwisko,
-                         CompanyName = bilet.Uczestnik.Firma,
-                         IsPresent = bilet.ObecnyNaWydarzeniu,
-                         WasInPast = bilet.Uczestnik.ObecnyKiedykolwiek,
-                         EventName = bilet.Wydarzenie.Nazwa,
-                         EventDate = bilet.Wydarzenie.DataWydarzenia.ToLocalTime().ToShortDateString(),
-                         EventTime = bilet.Wydarzenie.DataWydarzenia.ToLocalTime().ToShortTimeString()
-                     };
-
-            var jsonSettings = new JsonSerializerSettings {Formatting = Formatting.Indented};
+            var td = new TicketData(bilet);
             return Json(td, jsonSettings);
 
+        }
+
+        #endregion
+
+        #region PATCH
+
+        // PATCH: api/Ticket/{ticketId?isPresent}
+        public async Task<IHttpActionResult> Patch(Guid ticketId, bool isPresent)
+        {
+            AuthenticateRequest();
+
+            var bilet = await dbContext.Bilety.Where(b => b.Id == ticketId).Include(b => b.Uczestnik).FirstAsync();
+
+            bilet.ObecnyNaWydarzeniu = isPresent;
+
+            // jeśli już był kiedyś obecny to nie zmieniamy na false
+            bilet.Uczestnik.ObecnyKiedykolwiek = bilet.Uczestnik.ObecnyKiedykolwiek || isPresent;
+            await dbContext.SaveChangesAsync();
+
+            return Ok();
         }
 
         #endregion
@@ -66,21 +72,26 @@ namespace zn1Web.Controllers
         /// Authorizes request.
         /// </summary>
         /// <returns>True if authorization OK.</returns>
-        private bool AuthenticateRequest()
+        private void AuthenticateRequest()
         {
 
             if (Request.Headers.Contains("apiKey"))
             {
-                return !string.IsNullOrEmpty(Request.Headers.GetValues("apiKey").First());
+                if (!string.IsNullOrEmpty(Request.Headers.GetValues("apiKey").First()))
+                {
+                    return;
+                }
             }
 
-            return false;
-
+            // yes, bad response code - needs to halt redirect for 401 code - mvc / web api conflict :(
+            var msg = new HttpResponseMessage(HttpStatusCode.NotAcceptable) {ReasonPhrase = "Unauthorized. Bad api key."};
+            throw new HttpResponseException(msg);
         }
 
         #endregion
 
         private readonly ApplicationDbContext dbContext = new ApplicationDbContext();
+        private readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings {Formatting = Formatting.Indented};
 
     }
 }

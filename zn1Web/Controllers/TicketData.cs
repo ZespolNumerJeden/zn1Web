@@ -1,4 +1,5 @@
 ﻿using System;
+using zn1Web.Models;
 
 namespace zn1Web.Controllers
 {
@@ -13,10 +14,18 @@ namespace zn1Web.Controllers
         /// <summary>
         /// Default ctor.
         /// </summary>
-        /// <param name="id"></param>
-        public TicketData(Guid id)
+        /// <param name="bilet">Bilet entry.</param>
+        public TicketData(Bilet bilet)
         {
-            Id = id;
+            Id = bilet.Id;
+            FirstName = bilet.Uczestnik.Imie;
+            LastName = bilet.Uczestnik.Nazwisko;
+            CompanyName = bilet.Uczestnik.Firma;
+            IsPresent = bilet.ObecnyNaWydarzeniu;
+            WasInPast = bilet.Uczestnik.ObecnyKiedykolwiek;
+            EventName = bilet.Wydarzenie?.Nazwa;
+            EventDate = bilet.Wydarzenie?.DataWydarzenia.ToLocalTime().ToShortDateString();
+            EventTime = bilet.Wydarzenie?.DataWydarzenia.ToLocalTime().ToShortTimeString();
         }
 
         /// <summary>Guid of ticket.</summary>
