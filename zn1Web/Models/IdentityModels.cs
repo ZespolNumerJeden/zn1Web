@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace zn1Web.Models
 {
-    
+
     public class ApplicationUser : IdentityUser
     {
 

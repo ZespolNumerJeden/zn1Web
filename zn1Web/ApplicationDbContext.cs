@@ -17,13 +17,15 @@ namespace zn1Web
         public DbSet<Partner> Partnerzy { get; set; }
         public DbSet<Harmonogram> Harmonogramy { get; set; }
         public DbSet<Wydarzenie> Wydarzenia { get; set; }
-        
+        public DbSet<Bilet> Bilety { get; set; }
+
         #endregion
 
         public DropCreateDatabaseIfModelChanges<ApplicationDbContext> DbInitializer { get; set; }
-        
+
         public ApplicationDbContext() : base("DefaultConnection", false)
         {
+            Configuration.LazyLoadingEnabled = false;
         }
 
         public static ApplicationDbContext Create()

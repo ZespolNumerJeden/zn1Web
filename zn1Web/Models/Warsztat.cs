@@ -19,10 +19,6 @@ namespace zn1Web.Models
 
         public int? MaxOsob { get; set; }
 
-        // wydarzenie
-        public Wydarzenie Wydarzenie { get; set; }
-        public int? WydarzenieId { get; set; }
-
         // Prelegent 1
         public Prelegent Prelegent1 { get; set; }
         public int? Prelegent1Id { get; set; }
@@ -45,9 +41,9 @@ namespace zn1Web.Models
         {
             var warsztaty = new List<Warsztat>
             {
-                new Warsztat {Nazwa = "Wprowadzanie", Sala = "10", Prelegent1Id = 1, Prelegent2Id = 2, WydarzenieId = 2},
-                new Warsztat {Nazwa = "Dodawanie", Sala = "5", MaxOsob = 10, Prelegent1Id = 3, WydarzenieId = 2},
-                new Warsztat {Nazwa = "Poznawanie", Sala = "3", MaxOsob = 11, Prelegent1Id = 1, WydarzenieId = 2}
+                new Warsztat {Nazwa = "Wprowadzanie", Sala = "10", Prelegent1Id = 1, Prelegent2Id = 2},
+                new Warsztat {Nazwa = "Dodawanie", Sala = "5", MaxOsob = 10, Prelegent1Id = 3},
+                new Warsztat {Nazwa = "Poznawanie", Sala = "3", MaxOsob = 11, Prelegent1Id = 1}
             };
             table.AddRange(warsztaty);
         }

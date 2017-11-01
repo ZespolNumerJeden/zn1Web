@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 
 namespace zn1Web.Models
@@ -7,6 +8,9 @@ namespace zn1Web.Models
     {
         public int Id { get; set; }
         public string Nazwa { get; set; }
+        public DateTime DataWydarzenia { get; set; }
+
+        public ICollection<Bilet> Bilety { get; set; }
 
         #region Seed
 
@@ -18,10 +22,26 @@ namespace zn1Web.Models
         {
             var wydarzenia = new List<Wydarzenie>
             {
-                new Wydarzenie {Nazwa = "Konferencja Ogarnij Agile 1"},
-                new Wydarzenie {Nazwa = "Konferencja Ogarnij Agile 2"},
-                new Wydarzenie {Nazwa = "Warsztaty Scrum 1"},
-                new Wydarzenie {Nazwa = "Warsztaty Agile 1"}
+                new Wydarzenie
+                {
+                    Nazwa = "Konferencja Ogarnij Agile 1",
+                    DataWydarzenia = new DateTime(2016, 05, 21, 6, 00, 00, DateTimeKind.Utc)
+                },
+                new Wydarzenie
+                {
+                    Nazwa = "Konferencja Ogarnij Agile 2",
+                    DataWydarzenia = new DateTime(2017, 05, 27, 6, 00, 00, DateTimeKind.Utc)
+                },
+                new Wydarzenie
+                {
+                    Nazwa = "Warsztaty Scrum 1",
+                    DataWydarzenia = new DateTime(2016, 03, 21, 17, 00, 00, DateTimeKind.Utc)
+                },
+                new Wydarzenie
+                {
+                    Nazwa = "Warsztaty Agile 1",
+                    DataWydarzenia = new DateTime(2017, 01, 21, 18, 00, 00, DateTimeKind.Utc)
+                }
             };
             table.AddRange(wydarzenia);
         }

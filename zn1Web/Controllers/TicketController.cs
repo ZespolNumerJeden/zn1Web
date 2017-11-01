@@ -1,39 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace zn1Web.Controllers
 {
     public class TicketController : ApiController
     {
+
+        #region GET
+
         // GET: api/Ticket
-        public IEnumerable<string> Get()
+        public IHttpActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            return BadRequest("Provide ticketId in GET request.");
         }
 
-        // GET: api/Ticket/5
-        public string Get(int id)
+        // GET: api/Ticket/{Guid}
+        public async Task<IHttpActionResult> Get(Guid ticketId)
         {
-            return "value";
+
+            var bilet = await dbContext.Bilety.Where(b => b.Id == ticketId)
+                                              .Include(b => b.Uczestnik)
+                                              .Include(b => b.Wydarzenie)
+                                              .FirstAsync();
+
+            if (bilet == null)
+                return NotFound();
+            if (bilet.Uczestnik == null || bilet.Wydarzenie == null)
+                return StatusCode(HttpStatusCode.Conflict);
+
+            var td = new TicketData(ticketId)
+                     {
+                         FirstName = bilet.Uczestnik.Imie,
+                         LastName = bilet.Uczestnik.Nazwisko,
+                         CompanyName = bilet.Uczestnik.Firma,
+                         IsPresent = bilet.ObecnyNaWydarzeniu,
+                         WasInPast = bilet.Uczestnik.ObecnyKiedykolwiek,
+                         EventName = bilet.Wydarzenie.Nazwa,
+                         EventDate = bilet.Wydarzenie.DataWydarzenia.ToLocalTime().ToShortDateString(),
+                         EventTime = bilet.Wydarzenie.DataWydarzenia.ToLocalTime().ToShortTimeString()
+                     };
+
+            var jsonSettings = new JsonSerializerSettings {Formatting = Formatting.Indented};
+            return Json(td, jsonSettings);
+
         }
 
-        // POST: api/Ticket
-        public void Post([FromBody]string value)
-        {
-        }
+        #endregion
 
-        // PUT: api/Ticket/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
+        private readonly ApplicationDbContext dbContext = new ApplicationDbContext();
 
-        // DELETE: api/Ticket/5
-        public void Delete(int id)
-        {
-        }
     }
 }

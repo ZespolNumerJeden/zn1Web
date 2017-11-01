@@ -219,9 +219,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ListaObecnosciController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
+    <Compile Include="Controllers\TicketData.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -236,7 +236,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Partner.cs" />
     <Compile Include="Models\Prelegent.cs" />
-    <Compile Include="Models\Ticket.cs" />
+    <Compile Include="Models\Bilet.cs" />
     <Compile Include="Models\Uczestnik.cs" />
     <Compile Include="Models\Warsztat.cs" />
     <Compile Include="Models\Wydarzenie.cs" />
@@ -267,6 +267,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

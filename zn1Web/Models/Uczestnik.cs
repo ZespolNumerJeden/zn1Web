@@ -24,11 +24,9 @@ namespace zn1Web.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        public bool PotwPlatnosci { get; set; }
-        public bool PotwObecnosci { get; set; }
+        public bool ObecnyKiedykolwiek { get; set; }
 
-        [StringLength(20)]
-        public string Obiad { get; set; }
+        public ICollection<Bilet> Bilety { get; set; }
 
         #region Seed
 
@@ -40,12 +38,12 @@ namespace zn1Web.Models
         {
             var uczestnicy = new List<Uczestnik>
             {
-                new Uczestnik {Imie = "Adam", Nazwisko = "Adam"},
-                new Uczestnik {Imie = "Andrzej", Nazwisko = "Andrzej"},
-                new Uczestnik {Imie = "Paweł", Nazwisko = "Paweł"},
-                new Uczestnik {Imie = "Tomek", Nazwisko = "Tomek"},
-                new Uczestnik {Imie = "Kuba", Nazwisko = "Kuba"},
-                new Uczestnik {Imie = "Johny", Nazwisko = "Johny"}
+                new Uczestnik {Imie = "Adam", Nazwisko = "Adam", ObecnyKiedykolwiek = false},
+                new Uczestnik {Imie = "Andrzej", Nazwisko = "Andrzej", ObecnyKiedykolwiek = true},
+                new Uczestnik {Imie = "Paweł", Nazwisko = "Paweł", ObecnyKiedykolwiek = true},
+                new Uczestnik {Imie = "Tomek", Nazwisko = "Tomek", ObecnyKiedykolwiek = false},
+                new Uczestnik {Imie = "Kuba", Nazwisko = "Kuba", ObecnyKiedykolwiek = true},
+                new Uczestnik {Imie = "Johny", Nazwisko = "Johny", ObecnyKiedykolwiek = false}
             };
             table.AddRange(uczestnicy);
         }

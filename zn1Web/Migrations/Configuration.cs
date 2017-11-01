@@ -5,8 +5,10 @@ using zn1Web.Models;
 
 namespace zn1Web.Migrations
 {
+
     public sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
+
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
@@ -30,6 +32,8 @@ namespace zn1Web.Migrations
                 Warsztat.Seed(context.Warsztaty);
                 context.SaveChanges();
                 ListaObecnosci.Seed(context.ListyObecnosci);
+                context.SaveChanges();
+                Bilet.Seed(context.Bilety);
                 context.SaveChanges();
 #if DEBUG
             }
