@@ -39,10 +39,10 @@ namespace zn1Web.Models
             var uczestnicy = new List<Uczestnik>
             {
                 new Uczestnik {Imie = "Adam", Nazwisko = "Adam", ObecnyKiedykolwiek = false},
-                new Uczestnik {Imie = "Andrzej", Nazwisko = "Andrzej", ObecnyKiedykolwiek = true},
-                new Uczestnik {Imie = "Paweł", Nazwisko = "Paweł", ObecnyKiedykolwiek = true},
+                new Uczestnik {Imie = "Andrzej", Nazwisko = "Andrzej", ObecnyKiedykolwiek = false},
+                new Uczestnik {Imie = "Paweł", Nazwisko = "Paweł", ObecnyKiedykolwiek = false},
                 new Uczestnik {Imie = "Tomek", Nazwisko = "Tomek", ObecnyKiedykolwiek = false},
-                new Uczestnik {Imie = "Kuba", Nazwisko = "Kuba", ObecnyKiedykolwiek = true},
+                new Uczestnik {Imie = "Kuba", Nazwisko = "Kuba", ObecnyKiedykolwiek = false},
                 new Uczestnik {Imie = "Johny", Nazwisko = "Johny", ObecnyKiedykolwiek = false}
             };
             table.AddRange(uczestnicy);
