@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using zn1Web.Models;
 
 namespace zn1Web.Controllers
 {
@@ -22,11 +23,14 @@ namespace zn1Web.Controllers
         }
 
         // GET: api/Ticket/{ticketId}
-        public async Task<IHttpActionResult> Get(Guid ticketId)
+        public async Task<IHttpActionResult>Get([FromUri] Guid id)
         {
             AuthenticateRequest();
 
-            var bilet = await dbContext.Bilety.Where(b => b.Id == ticketId)
+            if (id == Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"))
+                return Json(MockResponse(), jsonSettings);
+
+            var bilet = await dbContext.Bilety.Where(b => b.Id == id)
                                               .Include(b => b.Uczestnik)
                                               .Include(b => b.Wydarzenie)
                                               .FirstAsync();
@@ -88,10 +92,40 @@ namespace zn1Web.Controllers
             throw new HttpResponseException(msg);
         }
 
+        private MockTicketData MockResponse()
+        {
+            return new MockTicketData
+                   {
+                       Id = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"),
+                       FirstName = "Elon",
+                       LastName = "Musk",
+                       CompanyName = "SpaceX",
+                       EventDate = new DateTime(2018, 12, 31).ToLocalTime().ToShortDateString(),
+                       EventName = "Konferencja marsjańska",
+                       IsPresent = false,
+                       WasInPast = false,
+                       EventTime = new DateTime(2017,12,31,20,33,08).ToLocalTime().ToShortTimeString()
+                   };
+        }
+
         #endregion
 
         private readonly ApplicationDbContext dbContext = new ApplicationDbContext();
         private readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings {Formatting = Formatting.Indented};
 
     }
+
+    internal class MockTicketData
+    {
+        public Guid Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string CompanyName { get; set; }
+        public string EventDate { get; set; }
+        public string EventTime { get; set; }
+        public string EventName { get; set; }
+        public bool WasInPast { get; set; }
+        public bool IsPresent { get; set; }
+    }
+
 }
