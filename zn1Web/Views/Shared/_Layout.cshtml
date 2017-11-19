@@ -9,35 +9,39 @@
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-	                <li>@Html.ActionLink("About", "About", "Home")</li>
-	                <li>@Html.ActionLink("Agenda", "Agenda", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>AGILE IT &copy; @DateTime.Now.Year</p>
-        </footer>
-    </div>
+    <div class="navbar navbar-inverse navbar-fixed-top " style="background-color: #1D3E72; font-family: LatoWeb">
+	    <div class="container">
+		    <a  class="pull-left brand-font"><img  class="img-responsive" width="50" height="50"src="~/images/logo.png"></a>
 
+		    <div class="navbar-header">
+			    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				    <span class="icon-bar"></span>
+				    <span class="icon-bar"></span>
+				    <span class="icon-bar"></span>
+			    </button>
+
+
+		    </div>
+			
+		    <div class="navbar-collapse collapse">
+			    @Html.Partial("_LoginPartial")
+			    <ul class="nav navbar-nav navbar-right">
+				    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+				    <li>@Html.ActionLink("About", "About", "Home")</li>
+				    <li>@Html.ActionLink("Agenda", "Agenda", "Home")</li>
+				    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+			    </ul>
+
+		    </div>
+	    </div>
+    </div>
+    <div class="container body-content" style="height: 100%; background-color: #CDCCCC">
+        @RenderBody()
+
+    </div>
+<footer class="panel-footer" style="font-family: LatoWebSemibold">
+	<p>AGILE IT &copy; @DateTime.Now.Year</p>
+</footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
