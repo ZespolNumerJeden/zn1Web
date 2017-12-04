@@ -1,102 +1,140 @@
-﻿using System;
+﻿using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using Microsoft.Ajax.Utilities;
-using Microsoft.Office.Interop.Excel;
-
+using System.Web;
 
 namespace zn1Web.Utils
 {
-	public class AgendaGenerator
-	{
+    public class AgendaGenerator
+    {
 
-		private const string fileName = "Agenda.xlsx";
-		private string filePath => Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files"), fileName);
-		private byte[] FileBytes { get; set; }
-		private Application ExcelApp { get; set; }
-		private Workbook ExcelWorkbook { get; set; }
-		private Worksheet ExcelWorksheet { get; set; }
-		private Range ExcelRange { get; set; }
-		private List<AgendaClass> Agenda { get; set; } = new List<AgendaClass>();
+        private const string FILE_NAME = "Agenda.xlsx";
+        private string FilePath => Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files"), FILE_NAME);
+        private List<AgendaClass> Agenda { get; } = new List<AgendaClass>();
+        private XSSFWorkbook NpoiWorkbook { get; }
+        private ISheet NpoiSheet { get; }
 
-		public AgendaGenerator()
-		{
+        public AgendaGenerator()
+        {
+            try
+            {
+                using (FileStream file = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
+                {
+                    NpoiWorkbook = new XSSFWorkbook(file);
+                }
+                NpoiSheet = NpoiWorkbook.GetSheetAt(0);
+            }
+            catch
+            {
+                throw new HttpException(404, "Cannot open/find a file :(");
+            }
 
-			ExcelApp = new Application();
-			ExcelWorkbook = ExcelApp.Workbooks.Open(filePath);
-			ExcelWorksheet = (Worksheet) ExcelWorkbook.Worksheets.get_Item(1);
+        }
 
-		}
+        public IEnumerable<AgendaClass> GetAgenda()
+        {
+            try
+            {
 
-		public IEnumerable<AgendaClass> GetAgenda()
-		{
-			var rows = ExcelWorksheet.UsedRange.Rows.Count;
-			var columns = ExcelWorksheet.UsedRange.Columns.Count;
-			var attributes = typeof(AgendaClass).GetProperties().Where(p => Attribute.IsDefined(p, typeof(DescriptionAttribute)));
-			if (columns < attributes.Count())
-			{
-				throw new Exception("Wrong number of columns");
-			}
-			var columnsOrder =  new Dictionary<int, string>();
+                var rows = NpoiSheet.LastRowNum;
+                var columns = NpoiSheet.GetRow(0).LastCellNum;
+                var attributes = typeof(AgendaClass).GetProperties()
+                                                    .Where(p => Attribute.IsDefined(p, typeof(DescriptionAttribute)));
 
-			for (var i = 0; i < columns; i++)
-			{
+                if (columns < attributes.Count())
+                {
+                    throw new Exception("Wrong number of columns");
+                }
 
-				columnsOrder.Add(i + 1, ExcelWorksheet.Cells[1, i + 1].Text);
-			}
-			
+                var columnsOrder = new Dictionary<int, string>();
 
-			for (var i = 1; i < rows; i++)
-			{
-				var ag = new AgendaClass();
-				foreach (var propertyInfo in ag.GetType().GetProperties().Where(p=> Attribute.IsDefined(p,typeof(DescriptionAttribute))))
-				{
-					var att = propertyInfo.GetCustomAttributes(typeof(DescriptionAttribute), true)[0] as DescriptionAttribute;
-					var columnNumber = columnsOrder.FirstOrDefault(x => x.Value == att.Description);
-					if (null == propertyInfo || !propertyInfo.CanWrite)
-					{
-						continue;
-					}
+                for (var i = 0; i < columns; i++)
+                {
+                    columnsOrder.Add(i, NpoiSheet.GetRow(0).GetCell(i).StringCellValue);
+                }
 
-					var val = ExcelWorksheet.Cells[i + 1, columnNumber.Key].Text;
-					propertyInfo.SetValue(ag, val, null);
-				}
-				Agenda.Add(ag);
-			}
-			Agenda.Sort((a, b) => a.DateTime.CompareTo(b.DateTime));
-			return Agenda;
-		}
+                for (var i = 1; i < rows; i++)
+                {
+                    var ag = new AgendaClass();
+                    foreach (var propertyInfo in ag.GetType()
+                                                   .GetProperties()
+                                                   .Where(p => Attribute.IsDefined(p, typeof(DescriptionAttribute))))
+                    {
 
-		public void Close()
-		{
-			ExcelWorkbook.Close();
-			ExcelApp.Quit();
-		}
-	}
+                        var att = propertyInfo.GetCustomAttributes(typeof(DescriptionAttribute), true)[0] as DescriptionAttribute;
+                        var columnNumber = columnsOrder.FirstOrDefault(x => x.Value == att?.Description);
 
-	public class AgendaClass
-	{
-		[Description("Data")]
-		public string Date { get; set; }
-		[Description("Godzina")]
-		public string Time { get; set; }
-		[Description("Opis")]
-		public string Description { get; set; }
-		[Description("Prelegent")]
-		public string Presenter { get; set; }
-		[Description("Tytuł")]
-		public string Title { get; set; }
+                        if (!propertyInfo.CanWrite)
+                        {
+                            continue;
+                        }
 
-		public DateTime DateTime
-		{
-			get
-			{
-				DateTime.TryParse($"{Date} {Time}", out DateTime dt);
-				return dt;
-			}
-		}
-	}
+                        string val = string.Empty;
+                        try
+                        {
+                            var type = NpoiSheet.GetRow(i).GetCell(columnNumber.Key).CellType;
+                            switch (type)
+                            {
+                                case CellType.String:
+                                    val = NpoiSheet.GetRow(i).GetCell(columnNumber.Key).StringCellValue;
+                                    break;
+                                case CellType.Numeric:
+                                    val = NpoiSheet.GetRow(i).GetCell(columnNumber.Key).DateCellValue.ToString();
+                                    break;
+                            }
+                        }
+                        catch
+                        {
+                            continue;
+                        }
+                        propertyInfo.SetValue(ag, val, null);
+
+                    }
+
+                    Agenda.Add(ag);
+                }
+            }
+            catch
+            {
+                throw new HttpException(404," :(");
+            }
+            return Agenda;
+        }
+
+        public void Close()
+        {
+            NpoiWorkbook.Close();
+        }
+
+    }
+
+    public class AgendaClass
+    {
+
+        [Description("Data")]
+        public string Date { get; set; }
+        [Description("Godzina")]
+        public string Time { get; set; }
+        [Description("Opis")]
+        public string Description { get; set; }
+        [Description("Prelegent")]
+        public string Presenter { get; set; }
+        [Description("Tytuł")]
+        public string Title { get; set; }
+
+        public DateTime DayTime
+        {
+            get
+            {
+
+                DateTime.TryParse(Time, out DateTime t);
+                DateTime.TryParse(Date, out DateTime d);
+                return d.Date + t.TimeOfDay;
+            }
+        }
+    }
 }

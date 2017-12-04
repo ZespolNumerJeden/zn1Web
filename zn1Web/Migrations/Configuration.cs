@@ -1,31 +1,59 @@
+using System.Data.Entity.Migrations;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
+using zn1Web.Models;
+
 namespace zn1Web.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<zn1Web.Models.ApplicationDbContext>
+    public sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
+
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(zn1Web.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+#if DEBUG
+            try
+            {
+#endif
+                Uczestnik.Seed(context.Uczestnicy);
+                context.SaveChanges();
+                Prelegent.Seed(context.Prelegenci);
+                context.SaveChanges();
+                Wydarzenie.Seed(context.Wydarzenia);
+                context.SaveChanges();
+                Partner.Seed(context.Partnerzy);
+                context.SaveChanges();
+                Warsztat.Seed(context.Warsztaty);
+                context.SaveChanges();
+                ListaObecnosci.Seed(context.ListyObecnosci);
+                context.SaveChanges();
+                Bilet.Seed(context.Bilety);
+                context.SaveChanges();
+#if DEBUG
+            }
+            catch (DbEntityValidationException e)
+            {
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+                foreach (var err in e.EntityValidationErrors)
+                {
+
+                    Debug.WriteLine($"Obiekt typu: {err.Entry.Entity.GetType().Name} w state: {err.Entry.State} ma nastêpuj¹ce b³êdy walidacji:");
+
+                    foreach (var entityErr in err.ValidationErrors)
+                    {
+                        Debug.WriteLine($"\tProperty: {entityErr.PropertyName} - b³¹d: {entityErr.ErrorMessage}");
+                    }
+
+                }
+                throw;
+            }
+#endif
         }
     }
 }
