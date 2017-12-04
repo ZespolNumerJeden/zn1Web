@@ -20,7 +20,7 @@
 
     @foreach (var agenda in Model.Grouped)
     {
-        <p>Dzień: @agenda.FirstOrDefault()?.DayTime.ToString("dd MMMM yyyy")</p>
+        <p>Dzień: @agenda.FirstOrDefault().DayTime.ToString("dd MMMM yyyy")</p>
         string accordionId = $"accordion{agenda.FirstOrDefault()?.DayTime:ddMMyy}";
         <div class="panel-group" id="@accordionId">
             @foreach (var agendaClass in agenda.OrderBy(x => x.DayTime))
