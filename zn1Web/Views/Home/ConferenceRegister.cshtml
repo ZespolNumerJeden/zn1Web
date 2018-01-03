@@ -1,0 +1,74 @@
+﻿@model zn1Web.Models.ConferenceRegisterModel
+@{
+    ViewBag.Title = "Register for conference";
+}
+@section Scripts{
+@Scripts.Render("~/bundles/jqueryval")
+	<script src="~/Scripts/conferenceRegister.js" type="text/javascript" ></script>
+
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("ConferenceRegister", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" , id="register-form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+		@Html.LabelFor(m=>m.Name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Surname, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.ConfirmEmail, new { @class = "col-md-2 control-label" })
+		<div class="col-md-10">
+			@Html.TextBoxFor(m => m.ConfirmEmail, new { @class = "form-control" })
+		</div>
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.Phone, new { @class = "col-md-2 control-label" })
+		<div class="col-md-10">
+			@Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+		</div>
+	</div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button id="submit-register-form" type="button" class="btn btn-default" value="Send" >Send</button>
+        </div>
+    </div>
+}
+
+
+
+<div id="confirm-modal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Registration complete</h4>
+			</div>
+			<div class="modal-body">
+				<p>Thank You!</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>

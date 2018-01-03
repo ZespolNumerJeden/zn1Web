@@ -42,5 +42,22 @@ namespace zn1Web.Controllers
             }
             return View(model);
         }
-    }
+
+		public ActionResult ConferenceRegister()
+		{
+			return View();
+		}
+		[HttpPost]
+		public  ActionResult ConferenceRegister(ConferenceRegisterModel model)
+		{
+			if (ModelState.IsValid)
+			{
+
+				// zapisz rejestracje....
+				return null;
+				
+			}
+			return View(model);
+		}
+	}
 }
