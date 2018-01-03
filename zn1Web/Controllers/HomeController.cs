@@ -43,6 +43,11 @@ namespace zn1Web.Controllers
             return View(model);
         }
 
+
+		public ActionResult Report()
+		{
+			return View();
+		}
 		public ActionResult ConferenceRegister()
 		{
 			return View();
