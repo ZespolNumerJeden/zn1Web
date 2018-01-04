@@ -344,7 +344,14 @@
     <Content Include="fonts\Lato-ThinItalic.woff2" />
     <None Include="Properties\PublishProfiles\ogarnij-agile - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="images\artur_ziolkowski_400x500-400x500-400x400.jpg" />
+    <Content Include="images\Intel.png" />
+    <Content Include="images\lechwypychowski-400x400.jpg" />
+    <Content Include="images\logo-blue-2.png" />
     <Content Include="images\logo.png" />
+    <Content Include="images\marcin_600-400x400.jpg" />
+    <Content Include="images\smarter_square-300x300.png" />
+    <Content Include="images\wyGRAmy_square-300x300.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\conferenceRegister.js" />
@@ -400,6 +407,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Agenda.cshtml" />
     <Content Include="Views\Home\ConferenceRegister.cshtml" />
+    <Content Include="Views\Home\Report.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
